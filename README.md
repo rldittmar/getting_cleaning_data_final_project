@@ -134,7 +134,7 @@ Files were read in and given column names as shown in the script. After reading 
 These included:
 
 - Checking that the total # of subjects in the combined training and test data sets equaled 30. 
-- Verifying that there were no overlapping subject IDs between the training and test data sets (each patients was only included in one
+- Verifying that there were no overlapping subject IDs between the training and test data sets (each patients was only included in one data set, so there should be no overlaps). 
 - Verifying that the number of rows in the subject files were the same as the number of rows in the x and y files. 
 
 ### Merging the data
@@ -163,7 +163,7 @@ names(mean_std) <- gsub("\\.", "", names(mean_std))
 
 ### Summarizing the data by creating a a second, independent tidy data set with the average of each variable for each activity and each subject.
  
- The 'subject' and 'activity' columns were set as factors. Data were grouped by subject and activity, then summarized by the mean. This results in a final, tidy data table with each row representing the mean of all variables for one activity for one subject.            
+ The 'subject' and 'activity' columns were set as factors. Data were grouped by subject and activity, then summarized by the mean for each variable. This results in a final, tidy data table with each row representing the mean of all variables for one activity for one subject.            
 
 ## References
 
