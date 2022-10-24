@@ -1,11 +1,12 @@
-
-set.seed(215)
 library("dplyr")
 library("tidyr")
 library("stringr")
 
 # Set your working directory
 setwd("~/R/Coursera/Getting_and_Cleaning_Data/Final_Project")
+
+# Set seed
+set.seed(215)
 
 # Download data
 # Please skip this section if the data has already been loaded and proceed to "Read in text files"
@@ -37,7 +38,7 @@ setwd("~/R/Coursera/Getting_and_Cleaning_Data/Final_Project")
 
         ## Check that total number of participants = 30
                 ### If other than 30, double check data loaded correctly
-                count(unique(test_sub)) + count(unique(train_sub))
+        count(unique(test_sub)) + count(unique(train_sub))
 
         ## Verify there is no overlap in subjects between the data sets
                 ### If false, double check data loaded correctly
@@ -93,10 +94,11 @@ setwd("~/R/Coursera/Getting_and_Cleaning_Data/Final_Project")
         names(mean_std) <- gsub("body", "body.", names(mean_std))
         names(mean_std) <- gsub("gravity", "gravity.", names(mean_std))
         names(mean_std) <- gsub("tbody", "time.body", names(mean_std))
+        names(mean_std) <- gsub("mag", "magnitude", names(mean_std))
         names(mean_std) <- gsub("\\.+", ".", names(mean_std))
-        names(mean_std) <- gsub("jerkmag", "jerk.mag", names(mean_std))
+        names(mean_std) <- gsub("jerkmagnitude", "jerk.magnitude", names(mean_std))
         names(mean_std) <- gsub("jerkmean", "jerk.mean", names(mean_std))
-        names(mean_std) <- gsub("meanfreq", "mean.freq", names(mean_std))
+        names(mean_std) <- gsub("meanfreq", "mean.frequency", names(mean_std))
         names(mean_std) <- gsub("\\.$", "", names(mean_std))
         
         ## Note: variable names are all in lowercase
