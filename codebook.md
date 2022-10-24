@@ -5,7 +5,7 @@ date: "10-24-2022"
 ---
 # Getting and Cleaning Data - Final Course Project Codebook
 
-This codebook describes the variables, the data, and transformations or work done to clean up the data and export a tidy data summary table. 
+This codebook describes the variables, the data, and transformations or work performed in the original data and done to clean up the data to export a tidy data summary table. 
 
 The codebook and its accompanying script and readme were prepared by R.L.Dittmar. 
 
