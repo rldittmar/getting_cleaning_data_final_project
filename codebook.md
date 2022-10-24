@@ -2,10 +2,10 @@
 title: "Codebook template"
 author: "Rachel L. Dittmar"
 date: "10-24-2022"
-output:
-  html_document:
-    keep_md: yes
 ---
+# Getting and Cleaning Data - Final Course Project Codebook
+
+This codebook and its accompanying script and readme were prepared by R.L.Dittmar.
 
 ## Project Description
 
@@ -134,6 +134,8 @@ The original data were not tidy for several reason, including:
 
 ### Guide to create the tidy data file
 
+The script can be foun
+
 #### Step 0: Load relevant libraries and prepare environment.
   
 ```
@@ -142,12 +144,12 @@ library("tidyr")
 library("stringr")
 ```
 
-- If desired, you may set your working directory.
+If desired, you may set your working directory.
 
 ```
 setwd("path")
 ```
-- If desired, you may set your seed the same as I did, though it shouldn't be necessary for this script.
+If desired, you may set your seed the same as I did, though it shouldn't be necessary for this script.
   
 ```
 set.seed(215)
@@ -171,7 +173,9 @@ filename <- "final_probject.zip"
                 unzip(filename) 
         }
 ```
-#### Step 2: Read in the text files and name the variable columns appropriately. For a detailed explanation of each text file read in, please see the "Original Data" section of this codebook.
+#### Step 2: Read in the text files and name the variable columns appropriately. 
+
+For a detailed explanation of each text file read in, please see the "Original Data" section of this codebook.
   
   ```
         features <- read.table("UCI HAR Dataset/features.txt", col.names = c("n","feature"))
@@ -208,21 +212,21 @@ The "sub" objects (test_sub and train_sub) contain the subject IDs for each meas
 
 #### Step 4: Sanity Checks to ensure data was loaded correctly
 
-- Check that the total # of subjects in the combined training and test data sets equal 30. 
+Check that the total # of subjects in the combined training and test data sets equal 30. 
 
   ```
   count(unique(test_sub)) + count(unique(train_sub))
   # This should be 30. If not, check that the data were loaded correctly.
   ```
   
-- Verify that there were no overlapping subject IDs between the training and test data sets (each subject was only included in one data set, so there should be no overlaps). 
+Verify that there were no overlapping subject IDs between the training and test data sets (each subject was only included in one data set, so there should be no overlaps). 
 
   ```
   sum(test_sub$ID %in% train_sub$ID) == FALSE
   # This should be true. If false, check the data were loaded correctly.
   ```
   
-- Verify that the number of rows in the subject files were the same as the number of rows in the x and y files. 
+Verify that the number of rows in the subject files were the same as the number of rows in the x and y files. 
 
   ```
   nrow(test_sub) == nrow(test_x) & nrow(test_y)
@@ -232,19 +236,19 @@ The "sub" objects (test_sub and train_sub) contain the subject IDs for each meas
 
 #### Step 5: Combine data
 
-- Combine the training data sets to form an object called "training_merged". This included the "subject" column of train_sub, the "acitivity" column of train_y, and all measurements of the varialbes in train_x. 
+Combine the training data sets to form an object called "training_merged". This included the "subject" column of train_sub, the "acitivity" column of train_y, and all measurements of the varialbes in train_x. 
 
-- Repeat with the test data sets to form an object called "test_merged".
+Repeat with the test data sets to form an object called "test_merged".
   
 ```
 train_merged <- cbind(train_sub["subject"], train_y["activity"], train_x[,1:ncol(train_x)])
                 
 test_merged <- cbind(test_sub["subject"], test_y["activity"], test_x[,1:ncol(train_x)])
 ```
-- Dimensions of train_merged should be: 7352 observations of 563 variables
-- Dimensions of test_merged should be: 2947 observations of 563 variables
+Dimensions of train_merged should be: 7352 observations of 563 variables
+Dimensions of test_merged should be: 2947 observations of 563 variables
  
-- Make sure that the variable (column) names match and are in the same order between the merged training and merged test datasets. Also make sure there are the same # of variables in each dataset.
+Make sure that the variable (column) names match and are in the same order between the merged training and merged test datasets. Also make sure there are the same # of variables in each dataset.
   
 ```
 sum(names(test_merged) == names(train_merged)) == ncol(test_merged) & ncol(train_merged)
@@ -252,23 +256,23 @@ sum(names(test_merged) == names(train_merged)) == ncol(test_merged) & ncol(train
 
 merged <- rbind(train_merged, test_merged)
 ```
-- Dimensions should be: 10299 observations of 563 variables
+Dimensions should be: 10299 observations of 563 variables
 
 ### Cleaning of the data
 
 #### Step 6: Extract only the measurements on the mean and standard deviation for each variable. 
 
--  Select only columns containing mean or std (abbreviation for standard deviation)
+Select only columns containing mean or std (abbreviation for standard deviation)
 
 ```
 mean_std <- merged %>%
 select(subject, activity, contains("mean"), contains("std"))
 ```
-- Dimensions should be: 10299 observations of 88 variables
+Dimensions should be: 10299 observations of 88 variables
   
 #### Step 7: Uses descriptive activity names to name the activities in the data set        
 
-- Change activity to character for use with stringr. Then, replace the activity number with a description of the activity. Please note that "upstairs" means walking upstairs. Similarly, "downstairs" means walking downstairs.
+Change activity to character for use with stringr. Then, replace the activity number with a description of the activity. Please note that "upstairs" means walking upstairs. Similarly, "downstairs" means walking downstairs.
   
 ```
  mean_std$activity <- as.character(mean_std$activity)
@@ -281,18 +285,18 @@ select(subject, activity, contains("mean"), contains("std"))
                 str_detect(mean_std$activity, "6") ~ 'laying')
           )
 
-- Dimensions should still be: 10299 observations of 88 variables
+Dimensions should still be: 10299 observations of 88 variables
 ```
 #### Step 8: Appropriately labels the data set with descriptive variable names. 
 
-- To keep variable names tidy, all variable names were changed to lower case.
+To keep variable names tidy, all variable names were changed to lower case.
 
 ```
 names(mean_std) <- tolower(names(mean_std))
 ```
-- Dimensions should still be: 10299 observations of 88 variables
+Dimensions should still be: 10299 observations of 88 variables
   
-- All variables/features were named in a descriptive manner.
+All variables/features were named in a descriptive manner.
 
  ```
   names(mean_std) <- gsub("\\s", "", names(mean_std))
@@ -329,8 +333,10 @@ names(mean_std) <- tolower(names(mean_std))
         # Remove any periods at the end of a line
         names(mean_std) <- gsub("\\.$", "", names(mean_std))
  ```
- - Dimensions should still be: 10299 observations of 88 variables
- - Please note: all variable names are in lower case
+ Dimensions should still be: 10299 observations of 88 variables
+  
+ Please note: 
+ - All variable names are in lower case
  - Periods between words have been added for enhanced readability
  - If you prefer no periods, please run the following to remove them:
  
@@ -338,25 +344,25 @@ names(mean_std) <- tolower(names(mean_std))
  names(mean_std) <- gsub("\\.", "", names(mean_std))
  ```
                     
- - Dimensions should still be: 10299 observations of 88 variables
+ Dimensions should still be: 10299 observations of 88 variables
 
  ### Creation of the tidy data file
  
  #### Step 9: Set the subject and activity columns as factors
  
- - Numeric values represent subjects, however these values are actually factors.
+ Numeric values represent subjects, however these values are actually factors.
                     
  ```
   mean_std$subject <- as.factor(mean_std$subject)
         mean_std$activity <- as.factor(mean_std$activity)
  ```
- - Dimensions should still be: 10299 observations of 88 variables
+ Dimensions should still be: 10299 observations of 88 variables
                              
  #### Step 10: Create an independent, tidy data table.
  
- - This table summarizes the data.
+ This table summarizes the data.
  
- - Each row represents the mean of the variables for one activity for one subject. For example, row 1 may contain the mean of all measurement taken from subject #1  while standing. Row 2 may contain the mean of all measurements taken from subject #1 while sitting. Etc.
+ Each row represents the mean of the variables for one activity for one subject. For example, row 1 may contain the mean of all measurement taken from subject #1  while standing. Row 2 may contain the mean of all measurements taken from subject #1 while sitting. Etc.
 
 ```
 final_tidy <- mean_std %>%
@@ -367,9 +373,9 @@ Dimensions should be: 180 observations of 88 variables
 
 #### Step 11: Export the tidy data table.
  
-- The below code exports the data table to the current working director.
+The below code exports the data table to the current working director.
 
-- To export to a different directory, remove the first "." and replace with the desired file path.
+To export to a different directory, remove the first "." and replace with the desired file path.
   
 ```
 write.table(mean_std, file = "./final_tidy_data.csv", col.names = TRUE)
@@ -379,12 +385,6 @@ Dimensions should be: 180 observations of 88 variables
 
 
 ## Description of the variables in the tiny_data.txt file
-General description of the file including:
- - Dimensions of the dataset
- - Summary of the data
- - Variables present in the dataset
-
-(you can easily use Rcode for this, just load the dataset and provide the information directly form the tidy data file)
 
 ### Variable 1
 - Subject identifier number
@@ -399,32 +399,46 @@ General description of the file including:
  
 ### The remaining variables (3:88) are all numeric in class and have pattern names where:
 
-Each measurement has a time or frequency prefix
-- time: time domain signals. Data were captured 
-- frequency: frequency domain signal; 
-- body:
-- accelerometer:
-- mean: 
-- x: x direction
-- y: y direction
-- z: z direction
-- gravity:
-- jerk: 
-- gyroscope: 
-- magnitude: 
-- angle: angle between vectors
+The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals time.accelerometer-XYZ and time.gyrometer-XYZ. These time domain signals (prefix "time" to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (time.body.accelerometer-XYZ and time.gravity.accelerometer-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
 
+Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (time.body.acceleromenter.jerk-XYZ and time.body.gyrometer.jerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (time.body.accelerometer.magnitude, time.gravity.accelerometer.magnitude, time.body.accelerometer.jerk.magnitude, time.body.gyrometer.magnitude, time.body.gyrometer.jerk.magnitude). 
 
-Some information on the variable including:
- - Class of the variable
- - Unique values/levels of the variable
- - Unit of measurement (if no unit of measurement list this as well)
- - In case names follow some schema, describe how entries were constructed (for example time-body-gyroscope-z has 4 levels of descriptors. Describe these 4 levels). 
+Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing frequency.body.accelerometer-XYZ, frequency.body.accelerometer.jerk-XYZ, frequency.body.gyrometer-XYZ, frequency.body.accelerometer.jerk.magnitude, frequency.body.gyrometer.magnitude, fBodyGyroJerkMag. (Note the "frequency" to indicate frequency domain signals). 
 
-(you can easily use Rcode for this, just load the dataset and provide the information directly form the tidy data file)
+These signals were used to estimate variables of the feature vector for each pattern:  
+'-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
 
-#### Notes on variable 1:
-If available, some additional notes on the variable not covered elsewehere. If no notes are present leave this section out.
+time.body.accelerometer-XYZ
+time.gravity.accelerometer-XYZ
+time.body.accelerometer.jerk-XYZ
+time.body.gyroscope-XYZ
+time.body.gyroscope.jerk-XYZ
+time.body.accelerometer.magnitude
+time.gravity.accelerometer.magnitude
+time.body.accelerometer.jerk.magnitude
+time.body.gyroscopeMag
+time.body.gyroscopeJerkMag
+frequency.body.accelerometer-XYZ
+frequency.body.accelerometer.jerk-XYZ
+frequency.body.gyroscope-XYZ
+frequency.body.accelerometer.magnitude
+frequency.body.accelerometer.jerk.magnitude
+frequency.body.gyroscope.magnitude
+frequency.body.gyroscope.jerk.magnitude
+
+Additional vectors obtained by averaging the signals in a signal window sample. These are used on the angle() variable:
+
+gravity.mean
+time.body.accelerometer.mean
+time.body.accelerometer.jerk.mean
+time.body.gyroscope.mean
+time.body.gyroscope.jerk.mean
+
+The set of variables that were estimated from these signals are: 
+mean(): Mean value
+std(): Standard deviation
+mean.freq(): Weighted average of the frequency components to obtain a mean frequency  
+angle(): Angle between two vectors.
 
 ## Sources
 
