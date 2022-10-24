@@ -5,9 +5,20 @@ date: "10-24-2022"
 ---
 # Getting and Cleaning Data - Final Course Project Codebook
 
-This codebook and its accompanying script and readme were prepared by R.L.Dittmar.
+This codebook describes the variables, the data, and transformations or work done to clean up the data and export a tidy data summary table. 
 
-## Project Description
+The codebook and its accompanying script and readme were prepared by R.L.Dittmar. 
+
+Scipt: run_analysis.R
+Link: <u>https://github.com/rldittmar/getting_cleaning_data_final_project/blob/c568c073d4ef1b54c22f821dcf49c265238ebc59/run_analysis.R
+
+Readme: README.md
+Link: 
+<u>https://github.com/rldittmar/getting_cleaning_data_final_project/blob/c568c073d4ef1b54c22f821dcf49c265238ebc59/README.md
+  
+
+
+  ## Project Description
 
 Thirty subjects were recruited for this study and randomly partitioned into a training cohort (N = 21) and a test cohort (N = 9). All participants were between ages of 19 and 48. Each subject engaged in six activities (walking, walking upstairs, walking downstairs, sitting, standing, and laying) while wearing a Samsung Galaxy S II smartphone on their waiste. This device contains an accelerometer and gyroscope, allowing the capture of 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. Data were mually annotated from video recordings of the experiments. 
 
